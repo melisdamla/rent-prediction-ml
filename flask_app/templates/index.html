@@ -1,45 +1,68 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Rent Price Prediction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h2>Rent Price Prediction (€/m²)</h2>
+<div class="container">
+    <h2>Rent Price Prediction (€/m²)</h2>
 
-        <form method="POST" action="/predict">
-            <label for="surface">Surface (m²):</label>
-            <input type="text" name="surface" placeholder="Ex: 45.0" title="Surface en mètres carrés">
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
 
-            <label for="nombre_pieces">Nombre de pièces:</label>
-            <input type="text" name="nombre_pieces" placeholder="Ex: 2" title="Nombre total de pièces">
+    <form method="POST" action="/predict">
+        <label for="surface">Surface (m²):</label>
+        <input type="text" name="surface" placeholder="Ex: 45.0">
 
-            <label for="nombre_observations">Nombre d'observations:</label>
-            <input type="text" name="nombre_observations" placeholder="Ex: 50" title="Nombre de relevés utilisés">
+        <label for="nombre_pieces">Nombre de pièces:</label>
+        <input type="text" name="nombre_pieces" placeholder="Ex: 2">
 
-            <label for="nombre_logements">Nombre de logements:</label>
-            <input type="text" name="nombre_logements" placeholder="Ex: 25" title="Total de logements observés">
+        <label for="nombre_observations">Nombre d'observations:</label>
+        <input type="text" name="nombre_observations" placeholder="Ex: 50">
 
-            <label for="agglomeration">Agglomération:</label>
-            <input type="text" name="agglomeration" placeholder="Ex: Marseille" title="Nom de la zone urbaine">
+        <label for="nombre_logements">Nombre de logements:</label>
+        <input type="text" name="nombre_logements" placeholder="Ex: 25">
 
-            <label for="Zone_complementaire">Zone complémentaire:</label>
-            <input type="text" name="Zone_complementaire" placeholder="Ex: 1, 2..." title="Indice de zone géographique complémentaire">
+        <label for="agglomeration">Agglomération:</label>
+        <select name="agglomeration">
+            <option>Marseille</option>
+            <option>Paris</option>
+            <option>Lyon</option>
+            <option>Bordeaux</option>
+        </select>
 
-            <label for="Type_habitat">Type d'habitat:</label>
-            <input type="text" name="Type_habitat" placeholder="Ex: Appartement" title="Maison ou Appartement">
+        <label for="Zone_complementaire">Zone complémentaire:</label>
+        <select name="Zone_complementaire">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
 
-            <label for="epoque_construction_homogene">Époque de construction:</label>
-            <input type="text" name="epoque_construction_homogene" placeholder="Ex: Avant 1946" title="Période de construction dominante">
+        <label for="Type_habitat">Type d'habitat:</label>
+        <select name="Type_habitat">
+            <option>Appartement</option>
+            <option>Maison</option>
+        </select>
 
-            <input type="submit" value="Prédire">
-        </form>
+        <label for="epoque_construction_homogene">Époque de construction:</label>
+        <select name="epoque_construction_homogene">
+            <option>Avant 1946</option>
+            <option>1946 à 1970</option>
+            <option>1971 à 1990</option>
+            <option>1991 à 2005</option>
+            <option>Après 2005</option>
+        </select>
 
-        {% if prediction is not none %}
-            <h3>Résultat estimé : {{ prediction }} €/m²</h3>
-        {% endif %}
-    </div>
+        <input type="submit" value="Prédire">
+    </form>
+
+    {% if prediction is not none %}
+        <h3>Résultat estimé : {{ prediction }} €/m²</h3>
+    {% endif %}
+</div>
 </body>
 </html>
