@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rent Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Rent Price Prediction (€/m²)</h2>
+
+        <form method="POST" action="/predict">
+            <label for="surface">Surface (m²):</label>
+            <input type="text" name="surface" placeholder="Ex: 45.0" title="Surface en mètres carrés">
+
+            <label for="nombre_pieces">Nombre de pièces:</label>
+            <input type="text" name="nombre_pieces" placeholder="Ex: 2" title="Nombre total de pièces">
+
+            <label for="nombre_observations">Nombre d'observations:</label>
+            <input type="text" name="nombre_observations" placeholder="Ex: 50" title="Nombre de relevés utilisés">
+
+            <label for="nombre_logements">Nombre de logements:</label>
+            <input type="text" name="nombre_logements" placeholder="Ex: 25" title="Total de logements observés">
+
+            <label for="agglomeration">Agglomération:</label>
+            <input type="text" name="agglomeration" placeholder="Ex: Marseille" title="Nom de la zone urbaine">
+
+            <label for="Zone_complementaire">Zone complémentaire:</label>
+            <input type="text" name="Zone_complementaire" placeholder="Ex: 1, 2..." title="Indice de zone géographique complémentaire">
+
+            <label for="Type_habitat">Type d'habitat:</label>
+            <input type="text" name="Type_habitat" placeholder="Ex: Appartement" title="Maison ou Appartement">
+
+            <label for="epoque_construction_homogene">Époque de construction:</label>
+            <input type="text" name="epoque_construction_homogene" placeholder="Ex: Avant 1946" title="Période de construction dominante">
+
+            <input type="submit" value="Prédire">
+        </form>
+
+        {% if prediction is not none %}
+            <h3>Résultat estimé : {{ prediction }} €/m²</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
