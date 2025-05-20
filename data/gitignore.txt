@@ -1,8 +1,39 @@
-# Ignore all data files
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Data files
 *.csv
 *.xlsx
-*.xls
+*.pkl
 *.json
+*.db
+*.sqlite3
 
-# Keep this file to track the folder
-!.gitignore
+# Logs
+*.log
+inference_log.csv
+
+# Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# VS Code / Jupyter / MacOS
+.vscode/
+.DS_Store
+
+# Models
+models/best_model.pkl
+
+# Flask runtime
+flask_app/__pycache__/
