@@ -65,4 +65,3 @@ rent-prediction-ml/
 ## Author
 
 **Melis Damla Sahin**  
-Data Engineer — responsible for automated data collection, statistical and semantic cleaning, feature preparation, and technical analysis of model errors.
