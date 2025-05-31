@@ -151,9 +151,12 @@ Intervalle de confiance : [10.7 – 14.1]
 
 ---
 
-## License & Attribution
+## License
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
+## Attribution
 This project was developed by **Melis Damla Sahin** as part of coursework at **Aix-Marseille University (2025)**.
 
 It is shared for educational and academic demonstration purposes.  
 All rights reserved unless explicitly stated otherwise.
+
