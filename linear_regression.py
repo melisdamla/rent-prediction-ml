@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 import joblib
 
 # === Configuration ===
-DATA_FILE = "data/loyers_clean.csv"
+DATA_FILE = "script/data/loyers_clean.csv"
 MODEL_DIR = "models"
 MODEL_FILE = os.path.join(MODEL_DIR, "linear_regression_model.pkl")
 TARGET = "loyer_m2"
