@@ -1,4 +1,4 @@
-"""
+    """
 evaluate_models.py
 
 Train and evaluate regression models on rent prediction data using a full
@@ -24,7 +24,7 @@ except ImportError:
     exit()
 
 # Configuration
-DATA_PATH = "data/loyers_clean.csv"
+DATA_PATH = "script/data/loyers_clean.csv"
 MODEL_DIR = "models"
 RESULTS_PATH = os.path.join(MODEL_DIR, "evaluation_results.csv")
 BEST_MODEL_PATH = os.path.join(MODEL_DIR, "best_model.pkl")
