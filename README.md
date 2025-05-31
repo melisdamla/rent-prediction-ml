@@ -4,7 +4,7 @@ This project is a full-stack machine learning application designed to predict re
 
 ---
 
-## 🚀 Features
+## Features
 
 - End-to-end ML pipeline: from raw data to deployed model
 - Multiple model training: Linear Regression, Lasso, Random Forest, XGBoost
@@ -16,7 +16,7 @@ This project is a full-stack machine learning application designed to predict re
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 rent-prediction-ml/
@@ -48,7 +48,7 @@ rent-prediction-ml/
 
 ---
 
-## 🧪 Getting Started
+## Getting Started
 
 ### 1. Install Dependencies
 
@@ -75,7 +75,7 @@ Visit `http://localhost:5000` to access the form interface and make predictions.
 
 ---
 
-## 🐳 Docker (Optional)
+## Docker (Optional)
 
 To containerize the application:
 
@@ -92,7 +92,7 @@ docker-compose up --build
 
 ---
 
-## 🧠 Model Details
+## Model Details
 
 The application evaluates the following regressors:
 
@@ -112,7 +112,7 @@ The model with the lowest **RMSE** is selected and saved.
 
 ---
 
-## 🌐 Web Interface
+## Web Interface
 
 The Flask app provides:
 
@@ -129,7 +129,7 @@ Intervalle de confiance : [10.7 – 14.1]
 
 ---
 
-## 🔭 Future Improvements
+## Future Improvements
 
 - REST API for programmatic access
 - File upload for batch prediction
@@ -138,7 +138,7 @@ Intervalle de confiance : [10.7 – 14.1]
 
 ---
 
-## 📄 License & Attribution
+## License & Attribution
 
 This project was developed by **Melis Damla Sahin** as part of coursework at **Aix-Marseille University (2025)**.
 
