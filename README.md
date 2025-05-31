@@ -21,28 +21,41 @@ This project is a full-stack machine learning application designed to predict re
 ```
 rent-prediction-ml/
 ├── flask_app/
-│   ├── app.py                  # Flask web server
-│   ├── templates/index.html    # HTML frontend
-│   ├── static/styles.css       # Styling
-│   └── inference_log.csv       # Optional prediction logs
+│   ├── app.py
+│   ├── inference_log.csv
+│   ├── static/
+│   │   └── styles.css
+│   └── templates/
+│       └── index.html
 │
 ├── models/
-│   ├── best_model.pkl          # Deployed model
-│   ├── *_model.pkl             # Trained models
-│   └── evaluation_results.csv  # Comparison of model performance
+│   ├── best_model.pkl
+│   ├── evaluation_results.csv
+│   ├── lasso_model.pkl
+│   ├── lasso.pkl
+│   ├── linear_regression.pkl
+│   ├── random_forest_model.pkl
+│   ├── random_forest.pkl
+│   ├── xgboost_model.pkl
+│   └── xgboost.pkl
 │
 ├── script/
 │   ├── data/
-│   │   ├── loyers_raw.csv      # Combined raw data
-│   │   └── loyers_clean.csv    # Cleaned dataset
-│   ├── loyers_obtain.py        # Downloads raw datasets
-│   ├── loyers_scrub.py         # Preprocessing script
-│   ├── loyers_explore.py       # EDA and correlation analysis
-│   └── evaluate_models.py      # Trains and evaluates models
+│   │   ├── loyers_clean.csv
+│   │   └── loyers_raw.csv
+│   ├── loyers_explore.py
+│   ├── loyers_obtain.py
+│   └── loyers_scrub.py
 │
+├── lasso.py
+├── linear_regression.py
+├── random_forest.py
+├── xgboost_model.py
+├── evaluate_models.py
+├── eda.ipynb
+├── requirements.txt
 ├── Dockerfile
 ├── docker-compose.yml
-├── requirements.txt
 └── README.md
 ```
 
