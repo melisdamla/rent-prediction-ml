@@ -105,14 +105,20 @@ docker-compose up --build
 
 ---
 
-## Model Details
+## Model Details and Performance
 
-The application evaluates the following regressors:
+The application evaluates the following regression models: Linear Regression, Lasso, Random Forest Regressor, and XGBoost Regressor.
 
-- Linear Regression
-- Lasso
-- Random Forest Regressor
-- XGBoost Regressor
+Model evaluation was performed using 5-fold cross-validation. The results are summarized in the table below:
+
+| Model             | MAE   | RMSE  | R² Score |
+|-------------------|-------|-------|----------|
+| Linear Regression | 0.651 | 0.940 | 0.900    |
+| Lasso             | 0.842 | 1.185 | 0.842    |
+| Random Forest     | 0.328 | 0.497 | 0.972    |
+| XGBoost           | 0.577 | 0.757 | 0.935    |
+
+The Random Forest Regressor achieved the best performance across all metrics.
 
 Each model is wrapped in a Scikit-learn `Pipeline` including:
 
@@ -124,6 +130,7 @@ Each model is wrapped in a Scikit-learn `Pipeline` including:
 The model with the lowest **RMSE** is selected and saved.
 
 ---
+
 
 ## Web Interface
 
