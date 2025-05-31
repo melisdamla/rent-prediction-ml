@@ -1,77 +1,76 @@
-from flask import Flask, render_template, request
-import pandas as pd
-import joblib
 import os
+import joblib
+import numpy as np
+import pandas as pd
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
-model = joblib.load("models/best_model.pkl")
-LOG_FILE = "inference_log.csv"
 
-# Valid categorical options (must match training set)
-VALID_OPTIONS = {
-    "agglomeration": ["Marseille", "Paris", "Lyon", "Bordeaux"],
-    "Zone_complementaire": ["1", "2", "3", "4"],
-    "Type_habitat": ["Appartement", "Maison"],
-    "epoque_construction_homogene": [
-        "Avant 1946",
-        "1946 à 1970",
-        "1971 à 1990",
-        "1991 à 2005",
-        "Après 2005"
-    ]
+# === Load model ===
+MODEL_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../models/best_model.pkl"))
+model_data = joblib.load(MODEL_PATH)
+model = model_data["model"]
+preprocessor = model_data["preprocessor"]
+
+# === Load CSV for dropdowns ===
+CSV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../script/data/loyers_clean.csv"))
+df = pd.read_csv(CSV_PATH, encoding="ISO-8859-1")
+
+categorical_options = {
+    "agglomeration": sorted(df["agglomeration"].dropna().unique()),
+    "zone_complementaire": sorted(df["zone_complementaire"].dropna().unique()),
+    "type_habitat": sorted(df["type_habitat"].dropna().unique()),
+    "epoque_construction_homogene": sorted(df["epoque_construction_homogene"].dropna().unique())
 }
 
-@app.route('/')
+# === Estimate standard deviation of residuals (for confidence interval) ===
+features = ["surface", "nombre_pieces", "nombre_observations", "nombre_logements",
+            "agglomeration", "zone_complementaire", "type_habitat", "epoque_construction_homogene"]
+df = df.dropna(subset=features + ["loyer_m2"])
+X_all = df[features]
+y_all = df["loyer_m2"]
+X_processed = preprocessor.transform(X_all)
+y_pred_all = model.predict(X_processed)
+residuals = y_all - y_pred_all
+std_dev = np.std(residuals)
+
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    prediction = None
+    conf_interval = None
+    form_data = {}
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    try:
-        # Required fields
-        required_fields = [
-            'surface', 'nombre_pieces', 'nombre_observations', 'nombre_logements',
-            'agglomeration', 'Zone_complementaire', 'Type_habitat', 'epoque_construction_homogene'
-        ]
+    if request.method == "POST":
+        form_data = {
+            "surface": request.form.get("surface", ""),
+            "nombre_pieces": request.form.get("nombre_pieces", ""),
+            "nombre_observations": request.form.get("nombre_observations", ""),
+            "nombre_logements": request.form.get("nombre_logements", ""),
+            "agglomeration": request.form.get("agglomeration", ""),
+            "zone_complementaire": request.form.get("zone_complementaire", ""),
+            "type_habitat": request.form.get("type_habitat", ""),
+            "epoque_construction_homogene": request.form.get("epoque_construction_homogene", "")
+        }
 
-        # Check presence
-        for field in required_fields:
-            if not request.form.get(field):
-                return render_template("index.html", error=f"Missing field: {field.replace('_', ' ').capitalize()}")
+        input_df = pd.DataFrame([form_data])
+        for col in ["surface", "nombre_pieces", "nombre_observations", "nombre_logements"]:
+            input_df[col] = pd.to_numeric(input_df[col], errors="coerce")
 
-        # Validate categorical fields
-        for field, valid_values in VALID_OPTIONS.items():
-            value = request.form.get(field)
-            if value not in valid_values:
-                return render_template("index.html", error=f"Invalid value for {field}: '{value}'")
+        X_transformed = preprocessor.transform(input_df)
+        y_pred = model.predict(X_transformed)[0]
 
-        # Prepare input
-        input_data = pd.DataFrame({
-            "surface": [float(request.form['surface'])],
-            "nombre_pieces": [int(request.form['nombre_pieces'])],
-            "nombre_observations": [int(request.form['nombre_observations'])],
-            "nombre_logements": [int(request.form['nombre_logements'])],
-            "agglomeration": [request.form['agglomeration']],
-            "Zone_complementaire": [request.form['Zone_complementaire']],
-            "Type_habitat": [request.form['Type_habitat']],
-            "epoque_construction_homogene": [request.form['epoque_construction_homogene']]
-        })
+        # Confidence interval (95%)
+        margin = 1.96 * std_dev
+        prediction = round(y_pred, 2)
+        conf_interval = (round(y_pred - margin, 2), round(y_pred + margin, 2))
 
-        prediction = model.predict(input_data)[0]
-
-        # Log inference
-        log_df = input_data.copy()
-        log_df["prediction"] = prediction
-        if not os.path.exists(LOG_FILE):
-            log_df.to_csv(LOG_FILE, index=False)
-        else:
-            log_df.to_csv(LOG_FILE, mode="a", index=False, header=False)
-
-        return render_template("index.html", prediction=round(prediction, 2))
-
-    except Exception as e:
-        print(f"Error during prediction: {e}")
-        return render_template("index.html", error="Internal error during prediction.")
+    return render_template(
+        "index.html",
+        prediction=prediction,
+        conf_interval=conf_interval,
+        form_data=form_data,
+        options=categorical_options
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
