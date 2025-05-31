@@ -4,7 +4,7 @@ This project is a full-stack machine learning application designed to predict re
 
 ---
 
-## Features
+## 🚀 Features
 
 - End-to-end ML pipeline: from raw data to deployed model
 - Multiple model training: Linear Regression, Lasso, Random Forest, XGBoost
@@ -16,7 +16,9 @@ This project is a full-stack machine learning application designed to predict re
 
 ---
 
-## Project Structure
+## 🗂️ Project Structure
+
+```
 rent-prediction-ml/
 ├── flask_app/
 │   ├── app.py                  # Flask web server
@@ -42,72 +44,103 @@ rent-prediction-ml/
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
-## Getting Started
+## 🧪 Getting Started
 
 ### 1. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
+```
 
-2. Train and Evaluate Models
+### 2. Train and Evaluate Models
+
+```bash
 python script/evaluate_models.py
-This will evaluate multiple models and save the best one as models/best_model.pkl.
+```
 
-3. Launch the Web App
+This will train and evaluate multiple models, then save the best one as `models/best_model.pkl`.
+
+### 3. Launch the Web App
+
+```bash
 cd flask_app
 python app.py
-Visit http://localhost:5000 to access the form interface and make predictions.
+```
 
-Docker (Optional)
+Visit `http://localhost:5000` to access the form interface and make predictions.
+
+---
+
+## 🐳 Docker (Optional)
 
 To containerize the application:
+
+```bash
 docker build -t rent-predictor .
 docker run -p 5000:5000 rent-predictor
+```
 
 With Docker Compose:
-docker-compose up --build
 
-Model Details
+```bash
+docker-compose up --build
+```
+
+---
+
+## 🧠 Model Details
 
 The application evaluates the following regressors:
-	•	Linear Regression
-	•	Lasso
-	•	Random Forest Regressor
-	•	XGBoost Regressor
 
-Each model is wrapped in a Scikit-learn Pipeline with:
-	•	SimpleImputer for missing values
-	•	StandardScaler for numeric features
-	•	OneHotEncoder for categorical variables
-	•	ColumnTransformer to unify preprocessing
+- Linear Regression
+- Lasso
+- Random Forest Regressor
+- XGBoost Regressor
 
-The model with the lowest RMSE is selected and saved.
+Each model is wrapped in a Scikit-learn `Pipeline` including:
 
-⸻
+- `SimpleImputer` for missing values
+- `StandardScaler` for numeric features
+- `OneHotEncoder` for categorical variables
+- `ColumnTransformer` to apply preprocessing in parallel
 
-Web Interface
+The model with the lowest **RMSE** is selected and saved.
 
-The app supports:
-	•	Input of housing features via an HTML form
-	•	Dynamic dropdowns populated from the training dataset
-	•	Rent prediction output with a 95% confidence interval (± 1.96 × residual std)
+---
 
-Example output:
+## 🌐 Web Interface
+
+The Flask app provides:
+
+- An HTML form for inputting housing features
+- Dynamic dropdowns populated from training data
+- Real-time rent prediction with 95% confidence interval
+
+**Example Output**:
+
+```
 Prédiction estimée : 12.4 €/m²
 Intervalle de confiance : [10.7 – 14.1]
+```
 
+---
 
-Future Improvements
-	•	REST API for programmatic access
-	•	File upload for batch prediction
-	•	Deployment to cloud platforms (e.g., GCP, Heroku, Render)
-	•	Interactive map of predictions by region
+## 🔭 Future Improvements
 
-## License
+- REST API for programmatic access
+- File upload for batch prediction
+- Deployment to cloud platforms (e.g., GCP, Heroku, Render)
+- Interactive map of predicted rents by region
 
-This project was developed by Melis Damla Sahin as part of a coursework at Aix-Marseille University (2025).  
+---
+
+## 📄 License & Attribution
+
+This project was developed by **Melis Damla Sahin** as part of coursework at **Aix-Marseille University (2025)**.
+
 It is shared for educational and academic demonstration purposes.  
 All rights reserved unless explicitly stated otherwise.
